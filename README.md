@@ -4,11 +4,28 @@ Boilerplate for using the Google Maps JavaScript API
 
 Usage
 -----
+- Include the map.css in your index.html
+```html
+<link rel="stylesheet" media="all" type="text/css" href="css/map.css">
+```
+
 - Include jQuery in your index.html
+```html
+<script type="text/javascript" src="js/libs/jquery-2.2.0.min.js"></script>
+```
+
+- Load the Google Maps JavaScript API using a script tag.
+```html
+<!-- Change the "YOUR_API_KEY" to your own Google Maps API key -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+```
+
 - Include the gmap.js file in your index.html
 ```html
 <script type="text/javascript" src="js/gmap.js"></script>
 ```
+
+- See the index.html for a full example.
 
 Creating the Map
 ----------------
@@ -42,7 +59,7 @@ var markerOptions = {
 	fitBounds: false,
 	iconColor: '00FF00',
 	iconSize: '.85',
-	iconFontSize: '11',
+	iconFontSize: '11'
 };
 
 gmap.addMarker(markerOptions);
