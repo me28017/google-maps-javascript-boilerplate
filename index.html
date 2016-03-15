@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+
+<title></title>
+
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+<!-- 
+----------------------------------------------------
+CSS
+----------------------------------------------------
+-->
+<link rel="stylesheet" media="all" type="text/css" href="css/map.css">
+
+<!-- 
+----------------------------------------------------
+Javascript
+----------------------------------------------------
+-->
+<!-- 3rd Party Libraries -->
+<script type="text/javascript" src="js/libs/jquery-2.2.0.min.js"></script>
+
+<!-- Use this if you have your own Google Maps API key 
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+<!-- Custom Code -->
+<script type="text/javascript" src="js/gmap.js"></script>
+
+<script>
+
+$(document).ready(function ()
+{
+	var center = new google.maps.LatLng(0, 0);
+
+	var mapOptions = {
+		zoom: 2,
+		center: center,
+		tilt: 0,
+		panControl: false,
+		zoomControl: true,
+		streetViewControl: false,
+		mapTypeControl: true,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	};
+
+	var gmap = new GMap();
+	gmap.loadMap("map_canvas", mapOptions, center);
+
+	var markerOptions = {
+		position: new google.maps.LatLng(39.828354, -98.579457),
+		title: '1st Marker',
+		label: 'ST',
+		fitBounds: false,
+		iconColor: '00FF00',
+		iconSize: '.85',
+		iconFontSize: '11',
+	};
+
+	gmap.addMarker(markerOptions);
+
+	gmap.geoCodeAddress('New York', function (geoCodeSuccess, status, latLng)
+	{
+		if (geoCodeSuccess)
+		{
+			gmap.addMarker({
+				position: latLng
+			});
+		}
+	});
+
+	gmap.geoCodeAddress('Oregon', function (geoCodeSuccess, status, latLng)
+	{
+		if (geoCodeSuccess)
+		{
+			gmap.addMarker({
+				position: latLng,
+				label: 'Oregon',
+				iconColor: 'DFDFDF',
+				iconSize: '1.6',
+				iconFontSize: '11',
+				fitBounds: true
+			});
+		}
+	});
+});
+
+</script>
+</head>
+
+<body>
+	<div id="container">   	
+		<!-- Google Map Here -->
+		<div id="map_canvas"></div>
+	</div>
+</body>
+</html>
