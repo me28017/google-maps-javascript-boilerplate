@@ -1,18 +1,23 @@
+
 /*
- * File: gmap.js
- * 
- * Purpose: Handles all interaction with the Google Map.
+ * Creates a new map.
  */
 var GMap = function () 
 {
 	this.map = null;
-	var bounds = null;
-	var geocoder = null;
-	var distanceService = null;
+	this.bounds = null;
+	this.geocoder = null;
+	this.distanceService = null;
+
+	this.markerID = 0;
+	this.markersArray = [];
 };
 
 /*
  * Creates the Google Map (w/ options) and loads it into the document.
+ * 
+ * @param {String} mapName - div ID for the map container
+ * @param mapOptions - options to create the map with 
  */
 GMap.prototype.loadMap = function (mapName, mapOptions)
 {
@@ -32,10 +37,18 @@ GMap.prototype.loadMap = function (mapName, mapOptions)
 };
 
 /*
- * Adds a marker to the map
+ * Adds a marker to the map.
  * 
- * @param {google.maps.LatLng} markerOpts all the options for the marker
+ * @param markerOpts - all the options for the marker
+ * @param markerOpts.position - The location of the marker
+ * @param markerOpts.title - The tool-tip string for the marker
+ * @param markerOpts.label - The inner label for the marker
+ * @param markerOpts.fitBounds - true to force the map to fit the marker in the bounds; false otherwise
+ * @param markerOpts.iconColor - the color of the marker
+ * @param markerOpts.iconSize - the size of the marker
+ * @param markerOpts.iconFontSize - the font size for the marker label
  * 
+ * @returns {google.maps.Marker} The newly created marker.
  */
 GMap.prototype.addMarker = function (markerOpts)
 {
@@ -80,7 +93,7 @@ GMap.prototype.addMarker = function (markerOpts)
 		this.map.fitBounds(this.bounds);
 	}
 
-	var icon = createIcon(label, iconColor, iconSize, iconFontSize);
+	var icon = this.createIcon(label, iconColor, iconSize, iconFontSize);
 
 	var marker = new google.maps.Marker(
 	{
@@ -88,13 +101,59 @@ GMap.prototype.addMarker = function (markerOpts)
 		position: latLng,
 		icon: icon,
 		title: title
-	});
+	}); 
+
+	// add the marker to the array
+	marker.ID = this.markerID++;
+
+	this.markersArray.push(marker);
 
 	return marker;
-}
+};
+
+/*
+ * Removes a marker from the map.
+ * 
+ * @param {google.maps.Marker} marker - the marker to remove from the map.
+ */
+GMap.prototype.removeMarker = function (marker)
+{
+	if (marker !== undefined)
+	{
+		marker.setMap(null);
+
+		// remove the marker from the array
+		var found = false;
+		var indexToRemove = 0;
+		var markerID = marker.ID;
+		var len = this.markersArray.length;
+		var i = 0;
+
+		while (i < len && !found)
+		{
+			var currMarker = this.markersArray[i];
+			
+			if (markerID === currMarker.ID)
+			{
+				found = true;
+				indexToRemove = i;
+			}
+
+			i++;
+		}
+
+		if (found)
+		{
+			this.markersArray.splice(indexToRemove, 1);
+		}
+	}
+};
 
 /*
  * Tries to geocode an address.
+ * 
+ * @param {String} location - the address to geocode
+ * @param {requestCallback} cb - the callback that handles the response.
  */
 GMap.prototype.geoCodeAddress = function (location, cb)
 {
@@ -111,9 +170,17 @@ GMap.prototype.geoCodeAddress = function (location, cb)
 		}
 		cb(geoCodeSuccess, status, latLng);
 	});
-}
+};
 
-function createIcon (iconLabel, iconColor, iconSize, iconFontSize)
+/*
+ * Creates a google icon.
+ * 
+ * @param iconLabel - the inner label of the marker
+ * @param iconColor - the color of the marker
+ * @param iconSize - the size of the marker
+ * @param iconFontSize - the font size for the marker label
+ */
+GMap.prototype.createIcon = function (iconLabel, iconColor, iconSize, iconFontSize)
 {
 	var icon = 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=';
 
@@ -122,4 +189,4 @@ function createIcon (iconLabel, iconColor, iconSize, iconFontSize)
 	icon += iconFontSize + '|_|' + iconLabel;
 
 	return icon;
-}
+};

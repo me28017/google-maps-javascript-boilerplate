@@ -32,6 +32,36 @@ var gmap = new GMap();
 gmap.loadMap("map_canvas", mapOptions, center);
 ```
 
+Adding a Marker to the Map
+--------------------------
+```javascript
+var markerOptions = {
+	position: new google.maps.LatLng(39.828354, -98.579457),
+	title: '1st Marker',
+	label: 'ST',
+	fitBounds: false,
+	iconColor: '00FF00',
+	iconSize: '.85',
+	iconFontSize: '11',
+};
+
+gmap.addMarker(markerOptions);
+```
+
+The only required marker option is 'position'
+
+Geocode an Address/Add Marker
+-----------------------------
+gmap.geoCodeAddress('New York', function (geoCodeSuccess, status, latLng)
+{
+	if (geoCodeSuccess)
+	{
+		gmap.addMarker({
+			position: latLng
+		});
+	}
+});
+
 License
 -------
 Copyright 2016 Michael Markidis

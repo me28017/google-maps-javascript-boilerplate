@@ -61,7 +61,7 @@ $(document).ready(function ()
 		iconFontSize: '11',
 	};
 
-	gmap.addMarker(markerOptions);
+	var m = gmap.addMarker(markerOptions);
 
 	gmap.geoCodeAddress('New York', function (geoCodeSuccess, status, latLng)
 	{

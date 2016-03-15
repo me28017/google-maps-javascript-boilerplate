@@ -13,12 +13,12 @@ html, body
 	display: block;
 	text-align: left;
 	padding: 5px;
-    position: absolute;
-    height: auto;
+	position: absolute;
+	height: auto;
 	bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
+	top: 0;
+	left: 0;
+	right: 0;
 }
 
 #map_canvas
