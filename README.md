@@ -25,7 +25,17 @@ Usage
 <script type="text/javascript" src="js/gmap.js"></script>
 ```
 
-- See the index.html for a full example.
+- Create a div section that will contain the google map.
+```html
+<body>
+...
+	<!-- Google Map Here -->
+	<div id="map_canvas"></div>
+...
+</body>
+```
+
+- See the [index.html](index.html) file for a full example.
 
 Creating the Map
 ----------------

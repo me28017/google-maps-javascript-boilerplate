@@ -87,6 +87,9 @@ $(document).ready(function ()
 			});
 		}
 	});
+
+	// remove the m marker and reset the map bounds to fit remaining markers
+	gmap.removeMarker(m, true);
 });
 
 </script>
