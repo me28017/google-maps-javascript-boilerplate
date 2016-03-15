@@ -46,7 +46,7 @@ var mapOptions = {
 var gmap = new GMap();
 
 // "map_canvas" is the id of the div where you want the map to go
-gmap.loadMap("map_canvas", mapOptions, center);
+gmap.loadMap("map_canvas", mapOptions);
 ```
 
 Adding a Marker to the Map
@@ -65,7 +65,10 @@ var markerOptions = {
 gmap.addMarker(markerOptions);
 ```
 
-The only required marker option is 'position'
+**Note**: The only required marker option is 'position'
+```javascript
+gmap.addMarker({position: new google.maps.LatLng(39.828354, -98.579457)});
+```
 
 Geocode an Address/Add Marker
 -----------------------------

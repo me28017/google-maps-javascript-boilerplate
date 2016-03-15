@@ -115,8 +115,9 @@ GMap.prototype.addMarker = function (markerOpts)
  * Removes a marker from the map.
  * 
  * @param {google.maps.Marker} marker - the marker to remove from the map.
+ * @param {Boolean} resetBounds - if true, the bounds are rest and the map is fit to the new bounds.
  */
-GMap.prototype.removeMarker = function (marker)
+GMap.prototype.removeMarker = function (marker, resetBounds)
 {
 	if (marker !== undefined)
 	{
@@ -145,6 +146,29 @@ GMap.prototype.removeMarker = function (marker)
 		if (found)
 		{
 			this.markersArray.splice(indexToRemove, 1);
+		}
+
+		if (resetBounds !== undefined && resetBounds)
+		{
+			// create a new bounds object
+			this.bounds = new google.maps.LatLngBounds();
+			
+			// go through all markers and add them to the bounds
+			i = 0;
+			len = this.markersArray.length;
+
+			while (i < len)
+			{
+				var currMarker = this.markersArray[i];
+				var latLng = currMarker.getPosition();
+
+				this.bounds.extend(latLng);
+
+				i++;
+			}
+
+			// fit map to new bounds
+			this.map.fitBounds(this.bounds);
 		}
 	}
 };
