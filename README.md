@@ -52,6 +52,7 @@ The only required marker option is 'position'
 
 Geocode an Address/Add Marker
 -----------------------------
+```javascript
 gmap.geoCodeAddress('New York', function (geoCodeSuccess, status, latLng)
 {
 	if (geoCodeSuccess)
@@ -61,6 +62,15 @@ gmap.geoCodeAddress('New York', function (geoCodeSuccess, status, latLng)
 		});
 	}
 });
+```
+
+Removing a Marker from the Map
+------------------------------
+```javascript
+var marker = gmap.addMarker(markerOptions);
+
+gmap.removeMarker(marker);
+```
 
 License
 -------
